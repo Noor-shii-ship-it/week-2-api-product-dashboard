@@ -1,3 +1,35 @@
+
+/* =========================
+   Global Styles
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #e2e8f0;
+  background: #0f172a;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
 /* =========================
    Main App
 ========================= */
@@ -11,36 +43,39 @@
     radial-gradient(
       circle at 10% 20%,
       rgba(139, 92, 246, 0.14),
-      transparent 28%
+      transparent 30%
     ),
     radial-gradient(
       circle at 90% 80%,
-      rgba(74, 144, 226, 0.12),
+      rgba(108, 99, 255, 0.1),
       transparent 30%
     ),
     #0f172a;
 }
 
 /* =========================
-   Header
+   Dashboard Header
 ========================= */
 
-.app-header {
+.dashboard-header {
   position: relative;
   overflow: hidden;
+  isolation: isolate;
 
   padding: 55px 30px 45px;
+  text-align: center;
+  color: #ffffff;
 
   background:
     radial-gradient(
       circle at 20% 30%,
-      rgba(139, 92, 246, 0.22),
-      transparent 25%
+      rgba(139, 92, 246, 0.25),
+      transparent 28%
     ),
     radial-gradient(
       circle at 80% 70%,
-      rgba(74, 144, 226, 0.2),
-      transparent 28%
+      rgba(108, 99, 255, 0.2),
+      transparent 30%
     ),
     linear-gradient(
       135deg,
@@ -49,489 +84,469 @@
       #1e1b4b
     );
 
-  color: white;
-  text-align: center;
-
-  box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
 
-/* Header glowing circles */
-
-.app-header::before {
+.dashboard-header::before,
+.dashboard-header::after {
   content: "";
-
   position: absolute;
+  z-index: -1;
 
   width: 220px;
   height: 220px;
 
-  top: -120px;
+  border-radius: 50%;
+  background: rgba(139, 92, 246, 0.18);
+  filter: blur(35px);
+
+  animation: floatingGlow 6s ease-in-out infinite;
+}
+
+.dashboard-header::before {
+  top: -130px;
   left: 8%;
-
-  background: rgba(139, 92, 246, 0.2);
-
-  border-radius: 50%;
-
-  filter: blur(30px);
-
-  animation: floatingGlow 5s ease-in-out infinite;
 }
 
-.app-header::after {
-  content: "";
-
-  position: absolute;
-
-  width: 220px;
-  height: 220px;
-
-  bottom: -130px;
+.dashboard-header::after {
   right: 8%;
-
-  background: rgba(74, 144, 226, 0.2);
-
-  border-radius: 50%;
-
-  filter: blur(30px);
-
-  animation: floatingGlow 6s ease-in-out infinite reverse;
+  bottom: -140px;
+  background: rgba(108, 99, 255, 0.2);
+  animation-direction: reverse;
 }
 
-/* =========================
-   Header Heading
-========================= */
-
-.app-header h1 {
+.dashboard-header h1 {
   position: relative;
-  z-index: 2;
-
-  margin: 0 0 10px;
-
-  font-size: clamp(2rem, 5vw, 3.2rem);
+  margin: 0 0 12px;
 
   color: #ffffff;
-
+  font-size: clamp(2rem, 5vw, 3.2rem);
   letter-spacing: 1px;
 
-  text-shadow:
-    0 0 15px rgba(139, 92, 246, 0.6),
-    0 0 30px rgba(74, 144, 226, 0.2);
+  text-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
 
   animation: headerText 0.8s ease;
 }
 
-/* Header Subtitle */
-
-.app-header p {
+.dashboard-header p {
   position: relative;
-  z-index: 2;
-
   margin: 0;
 
   color: #c4b5fd;
-
   font-size: clamp(1rem, 2vw, 1.2rem);
-
-  letter-spacing: 2px;
-
-  font-weight: 500;
+  letter-spacing: 1px;
 
   animation: headerText 1s ease;
 }
 
 /* =========================
-   Decorative Divider
+   Dashboard Content
 ========================= */
 
-.header-divider {
-  position: relative;
-  z-index: 2;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  width: 100%;
-  max-width: 420px;
-
-  margin: 25px auto 0;
-
-  color: #a78bfa;
-
-  animation: dividerAppear 1.2s ease;
-}
-
-.header-divider::before,
-.header-divider::after {
-  content: "";
-
-  display: block;
-
-  width: 160px;
-
-  height: 1px;
-
-  background: #a78bfa;
-
-  box-shadow:
-    0 0 8px rgba(139, 92, 246, 0.6);
-}
-
-.header-divider::before {
-  margin-right: 14px;
-}
-
-.header-divider::after {
-  margin-left: 14px;
-}
-
-.header-divider span {
-  display: block;
-
-  color: #a78bfa;
-
-  font-size: 0.9rem;
-
-  line-height: 1;
-
-  text-shadow:
-    0 0 8px rgba(139, 92, 246, 0.8),
-    0 0 15px rgba(139, 92, 246, 0.4);
-}
-
-/* =========================
-   Main Content
-========================= */
-
-.app-main {
+.dashboard-content {
   position: relative;
   z-index: 1;
 
   width: min(1100px, 92%);
-
   margin: 0 auto;
-
   padding: 35px 0 50px;
 }
 
+.dashboard-content h2 {
+  margin: 0 0 25px;
+  color: #c4b5fd;
+  font-size: 1.6rem;
+}
+
 /* =========================
-   Task Form
+   Search and Category Filter
 ========================= */
 
-.task-form {
+.product-controls {
   display: flex;
-
-  gap: 10px;
-
-  flex-wrap: wrap;
-
-  padding: 25px;
-
-  background: rgba(30, 41, 59, 0.72);
-
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-
-  border: 1px solid rgba(108, 99, 255, 0.35);
-
-  border-radius: 14px;
-
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.25),
-    0 0 25px rgba(108, 99, 255, 0.05);
-
-  transition: 0.3s ease;
+  gap: 14px;
+  margin-bottom: 18px;
 }
 
-.task-form:hover {
-  border-color: rgba(139, 92, 246, 0.5);
+.product-search,
+.category-select {
+  min-height: 46px;
+  padding: 12px 15px;
 
-  box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.3),
-    0 0 25px rgba(139, 92, 246, 0.08);
-}
+  color: #f8fafc;
+  background: rgba(30, 27, 75, 0.85);
 
-/* =========================
-   Task Input
-========================= */
-
-.task-input {
-  flex: 1;
-
-  min-width: 200px;
-
-  padding: 12px 14px;
-
-  background: rgba(15, 23, 42, 0.9);
-
-  color: #e2e8f0;
-
-  border: 1px solid #475569;
-
-  border-radius: 8px;
-
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  border-radius: 9px;
   outline: none;
 
-  transition: 0.3s ease;
+  font-size: 15px;
+
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.task-input::placeholder {
-  color: #94a3b8;
+.product-search {
+  flex: 1;
+  min-width: 0;
 }
 
-.task-input:focus {
-  border-color: #8b5cf6;
+.product-search::placeholder {
+  color: #a5b4fc;
+}
 
-  box-shadow:
-    0 0 10px rgba(139, 92, 246, 0.3),
-    0 0 20px rgba(139, 92, 246, 0.08);
+.product-search:focus,
+.category-select:focus {
+  border-color: #a78bfa;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.25);
+}
 
-  transform: translateY(-1px);
+.category-select {
+  width: 240px;
+  max-width: 100%;
+  text-transform: capitalize;
+  cursor: pointer;
+}
+
+.category-select option {
+  color: #f8fafc;
+  background: #1e1b4b;
 }
 
 /* =========================
-   Add Button
+   Product Count
 ========================= */
 
-.add-button {
-  padding: 10px 18px;
+.product-count {
+  margin: 0 0 20px;
+  color: #c4b5fd;
+  font-size: 14px;
+}
 
-  border: none;
+/* =========================
+   Product Grid
+========================= */
 
+.product-grid {
+  display: grid;
+
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(220px, 1fr)
+  );
+
+  align-items: stretch;
+  gap: 20px;
+}
+
+/* =========================
+   Product Cards
+========================= */
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+
+  background: rgba(30, 41, 59, 0.78);
+
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  border-radius: 14px;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  animation: fadeIn 0.4s ease;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+
+  border-color: rgba(167, 139, 250, 0.8);
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(139, 92, 246, 0.14);
+}
+
+/* Product Image */
+
+.product-card img {
+  display: block;
+  width: 100%;
+  height: 190px;
+  padding: 12px;
+
+  object-fit: contain;
+  background: rgba(15, 23, 42, 0.85);
+}
+
+/* =========================
+   Product Information
+========================= */
+
+.product-info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: stretch;
+
+  padding: 18px;
+}
+
+.product-info h3 {
+  margin: 0 0 10px;
+
+  color: #e9d5ff;
+  font-size: 1.05rem;
+  line-height: 1.5;
+
+  overflow-wrap: anywhere;
+}
+
+.product-info p {
+  margin: 0 0 12px;
+
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  line-height: 1.6;
+
+  overflow-wrap: anywhere;
+}
+
+.product-info strong {
+  display: inline-block;
+  margin-top: auto;
+  padding-top: 8px;
+
+  color: #c4b5fd;
+  font-size: 1.25rem;
+}
+
+/* =========================
+   View Details Button
+   Purple-Indigo Theme
+========================= */
+
+.details-button {
+  display: block;
+  width: 100%;
+
+  margin-top: 14px;
+  padding: 12px 16px;
+
+  background: linear-gradient(
+    135deg,
+    #8b5cf6,
+    #6366f1
+  );
+
+  color: #ffffff;
+
+  border: 1px solid rgba(167, 139, 250, 0.6);
   border-radius: 8px;
 
-  background:
-    linear-gradient(
-      135deg,
-      #6c63ff,
-      #4a90e2
-    );
-
-  color: white;
+  font-size: 15px;
+  font-weight: 600;
 
   cursor: pointer;
 
-  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25);
 
-  box-shadow:
-    0 4px 12px rgba(108, 99, 255, 0.2);
-
-  transition: 0.3s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.add-button:hover {
+.details-button:hover {
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #4f46e5
+  );
+
   transform: translateY(-2px);
 
-  box-shadow:
-    0 6px 15px rgba(108, 99, 255, 0.35),
-    0 0 15px rgba(139, 92, 246, 0.15);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
-.add-button:active {
-  background: #8b5cf6;
+.details-button:active {
+  transform: scale(0.98);
+}
 
-  transform: scale(0.95);
-
-  box-shadow:
-    0 0 18px rgba(139, 92, 246, 0.7),
-    0 0 30px rgba(139, 92, 246, 0.2);
-
-  animation: buttonClick 0.2s ease;
+.details-button:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 3px;
 }
 
 /* =========================
-   Error
+   Loading and Empty States
 ========================= */
 
-.task-error {
-  width: 100%;
+.status {
+  padding: 24px;
+  color: #c4b5fd;
+  text-align: center;
+  line-height: 1.6;
+}
 
-  margin: 0;
+.empty-message {
+  margin-top: 20px;
+  padding: 25px;
 
-  color: #f87171;
+  color: #cbd5e1;
+  text-align: center;
 
-  font-size: 0.9rem;
+  background: rgba(30, 27, 75, 0.45);
+
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 10px;
+
+  animation: fadeIn 0.4s ease;
+}
+
+.error {
+  padding: 15px;
+
+  color: #fca5a5;
+  background: rgba(127, 29, 29, 0.25);
+
+  border: 1px solid rgba(248, 113, 113, 0.4);
+  border-radius: 10px;
+
+  line-height: 1.6;
+}
+
+/* =========================
+   Product Details Popup
+========================= */
+
+.product-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+  overflow-y: auto;
+
+  background: rgba(2, 6, 23, 0.82);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.product-modal {
+  position: relative;
+
+  width: min(500px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+
+  padding: 28px;
+
+  color: #e2e8f0;
+
+  background: linear-gradient(
+    145deg,
+    #1e293b,
+    #1e1b4b
+  );
+
+  border: 1px solid rgba(167, 139, 250, 0.5);
+  border-radius: 16px;
+
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.4);
 
   animation: fadeIn 0.3s ease;
 }
 
-/* =========================
-   Task List
-========================= */
+.product-modal h2 {
+  margin: 15px 0;
+  padding-right: 25px;
 
-.task-list {
-  display: grid;
+  color: #e9d5ff;
+  font-size: 1.5rem;
+  line-height: 1.4;
 
-  gap: 12px;
-
-  margin-top: 25px;
+  overflow-wrap: anywhere;
 }
 
-/* =========================
-   Individual Task
-========================= */
+.product-modal p {
+  color: #cbd5e1;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
 
-.task-item {
-  display: flex;
+.product-modal strong {
+  color: #c4b5fd;
+}
 
-  align-items: center;
+/* Modal Product Image */
 
-  gap: 10px;
+.modal-image {
+  display: block;
+  width: 100%;
+  height: 200px;
 
-  padding: 15px;
+  object-fit: contain;
 
   background: rgba(15, 23, 42, 0.7);
 
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-
-  border: 1px solid rgba(167, 139, 250, 0.2);
-
+  border: 1px solid rgba(139, 92, 246, 0.2);
   border-radius: 10px;
-
-  box-shadow:
-    0 6px 18px rgba(0, 0, 0, 0.15);
-
-  transition: 0.3s ease;
-
-  animation: fadeIn 0.35s ease;
 }
 
-.task-item:hover {
-  transform: translateY(-2px);
+/* Modal Close Button */
 
-  border-color: rgba(139, 92, 246, 0.5);
+.modal-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
 
-  box-shadow:
-    0 8px 20px rgba(0, 0, 0, 0.25),
-    0 0 18px rgba(139, 92, 246, 0.06);
-}
-
-/* =========================
-   Task Text
-========================= */
-
-.task-text {
-  flex: 1;
-
-  color: #e2e8f0;
-
-  word-break: break-word;
-}
-
-/* =========================
-   Task Actions
-========================= */
-
-.task-actions {
   display: flex;
+  align-items: center;
+  justify-content: center;
 
-  gap: 8px;
-}
+  width: 36px;
+  height: 36px;
+  padding: 0;
 
-.complete-button,
-.delete-button {
-  padding: 8px 14px;
+  background: #312e81;
+  color: #ffffff;
 
-  border: none;
+  border: 1px solid rgba(167, 139, 250, 0.4);
+  border-radius: 50%;
 
-  border-radius: 8px;
-
-  color: white;
+  font-size: 25px;
+  line-height: 1;
 
   cursor: pointer;
 
-  transition: 0.3s ease;
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
 }
 
-/* Complete Button */
-
-.complete-button {
-  background:
-    linear-gradient(
-      135deg,
-      #6c63ff,
-      #4a90e2
-    );
+.modal-close:hover {
+  background: #6c63ff;
+  transform: rotate(90deg);
 }
 
-.complete-button:hover {
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 6px 15px rgba(108, 99, 255, 0.35),
-    0 0 12px rgba(139, 92, 246, 0.1);
-}
-
-/* Delete Button */
-
-.delete-button {
-  background: #475569;
-}
-
-.delete-button:hover {
-  background: #64748b;
-
-  transform: translateY(-2px);
-
-  box-shadow:
-    0 6px 15px rgba(71, 85, 105, 0.3);
-}
-
-/* Click Effect */
-
-.complete-button:active,
-.delete-button:active {
-  background: #8b5cf6;
-
-  transform: scale(0.95);
-
-  box-shadow:
-    0 0 18px rgba(139, 92, 246, 0.7),
-    0 0 30px rgba(139, 92, 246, 0.2);
-
-  animation: buttonClick 0.2s ease;
-}
-
-/* =========================
-   Empty Message
-========================= */
-
-.empty-message {
-  margin-top: 25px;
-
-  padding: 25px;
-
-  color: #cbd5e1;
-
-  text-align: center;
-
-  border: 1px solid rgba(139, 92, 246, 0.35);
-
-  border-radius: 10px;
-
-  background: rgba(30, 41, 59, 0.45);
-
-  box-shadow:
-    0 8px 25px rgba(0, 0, 0, 0.2),
-    0 0 18px rgba(139, 92, 246, 0.12),
-    0 0 35px rgba(139, 92, 246, 0.06);
-
-  animation: fadeIn 0.4s ease;
-
-  transition: 0.3s ease;
-}
-
-.empty-message:hover {
-  border-color: rgba(139, 92, 246, 0.55);
-
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.25),
-    0 0 22px rgba(139, 92, 246, 0.2),
-    0 0 40px rgba(139, 92, 246, 0.08);
+.modal-close:focus-visible {
+  outline: 2px solid #c4b5fd;
+  outline-offset: 3px;
 }
 
 /* =========================
@@ -550,36 +565,10 @@
   }
 }
 
-@keyframes buttonClick {
-  0% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(0.96);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
 @keyframes headerText {
   from {
     opacity: 0;
     transform: translateY(-15px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes dividerAppear {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
   }
 
   to {
@@ -604,47 +593,63 @@
 ========================= */
 
 @media (max-width: 700px) {
-  .app-header {
+  .dashboard-header {
     padding: 40px 20px 35px;
   }
 
-  .app-main {
+  .dashboard-content {
     width: 92%;
     padding-top: 25px;
   }
 
-  .header-divider {
-    max-width: 300px;
+  .product-grid {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(160px, 1fr)
+    );
+
+    gap: 14px;
   }
 
-  .header-divider::before,
-  .header-divider::after {
-    width: 100px;
+  .product-card img {
+    height: 160px;
   }
 
-  .task-form {
+  .product-info {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-controls {
     flex-direction: column;
   }
 
-  .task-input {
+  .category-select {
     width: 100%;
+    max-width: none;
   }
 
-  .add-button {
-    width: 100%;
+  .product-modal {
+    padding: 22px;
   }
 
-  .task-item {
-    flex-direction: column;
-    align-items: stretch;
+  .modal-image {
+    height: 170px;
   }
+}
 
-  .task-actions {
-    justify-content: flex-start;
-  }
+/* =========================
+   Reduced Motion
+========================= */
 
-  .complete-button,
-  .delete-button {
-    flex: 1;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
